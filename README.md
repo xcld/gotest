@@ -1,6 +1,6 @@
-《Go简易教程》学习项目
+《Go简易教程》
 ===================
-Go学习，每天进步一点点！
+Go精进，每天进步一点点！
 ===================
 
 [《The Little Go Book》](https://github.com/karlseguin/the-little-go-book)中文译本，中文正式名《Go简易教程》。
