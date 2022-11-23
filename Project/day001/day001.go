@@ -27,12 +27,20 @@ const (
 	Fou01, Fou02, Fou03 = iota, iota, iota
 	Fif                 = "fifth"
 	Six
-	Seventh = iota
+	Seventh = iota + 3
 )
+
+type OrderStatus int
+
+const (
+	Cancelled OrderStatus = iota
+)
+
 const GoldenRatio, Bernstein, Hafner_Sarnak_McCurley = 0.61803, 0.70258, 4.66920
 const Feigenbaum, C2, M1 float64 = 2.50290, 0.66016, 0.26149
 
 func main() {
+	NoPay := 1
 	Scale := float32(5 / 8)
 	fmt.Printf("国际时装周模特%d标准为:\n%dcm的身高\n，%dkg的体重\n，三围：\n胸围为：%fcm\n,腰围为：%fcm\n,臀围为：%fcm\n，并且上下身比例为：%f\n", Gender, Height, Weight, Bust, Waist, Hip, Scale)
 	//fmt.Printf("It's over %f\n", Power)
@@ -41,4 +49,5 @@ func main() {
 	fmt.Printf("黄金比φ:%f\nEmbree-Trefethen 常数β:%f\n第一费根鲍姆常数δ:%f\n第二费根鲍姆常数α:%f\n", GoldenRatio, Bernstein, Hafner_Sarnak_McCurley, Feigenbaum)
 	fmt.Printf("孪生质数常数C2:%f\nMeissel-Mertens常数M1:%f\n", C2, M1)
 	fmt.Println(Zero, Fir, Sec, Thi, Fou01, Fou02, Fou03, Fif, Six, Seventh)
+	fmt.Println(Cancelled, NoPay)
 }
