@@ -192,30 +192,30 @@
 //			}
 //		}
 //	}
-//
-// package main
-//
-// import "fmt"
-//
-//	func main() {
-//		var sum, Sum int
-//
-// A:
-//
-//		for i := 1; i <= 14; i++ {
-//			for j := 1; j <= i; j++ {
-//				if Sum == 60 {
-//					break A
-//				}
-//				fmt.Printf("A")
-//				Sum += j
-//			}
-//			sum += i
-//			//fmt.Println("i=", i, "sum=", sum)
-//			fmt.Println("\n", sum)
-//		}
-//	}
-//
+package main
+
+import "fmt"
+
+func main() {
+	var sum, Sum int
+Loop:
+	for i := 1; i <= 14; i++ {
+		for j := 1; j <= i; j++ {
+			if Sum == 7 {
+				break Loop
+			}
+			fmt.Printf("A")
+			Sum += j
+		}
+		sum += i
+		if Sum == 6 {
+			break
+		}
+		//fmt.Println("i=", i, "sum=", sum)
+		fmt.Println("\n", sum)
+	}
+}
+
 // day001
 // package main
 //
@@ -265,18 +265,18 @@
 //		fmt.Printf("ch1= %c,ch2=%c ,ch3=%s", ch1, ch2, ch3)
 //
 // {
-package main
-
-import "fmt"
-
-var Hip int
-
-type Tempc float64
-
-func main() {
-	var F Tempc = 36.5
-	fmt.Println("请输入一个整数：")
-	fmt.Scanf("%d", &Hip)
-	fmt.Println(Hip)
-	fmt.Println(F)
-}
+//package main
+//
+//import "fmt"
+//
+//var Hip int
+//
+//type Tempc float64
+//
+//func main() {
+//	var F Tempc = 36.5
+//	fmt.Println("请输入一个整数：")
+//	fmt.Scanf("%d", &Hip)
+//	fmt.Println(Hip)
+//	fmt.Println(F)
+//}
