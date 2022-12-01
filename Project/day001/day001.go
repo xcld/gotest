@@ -192,29 +192,29 @@
 //			}
 //		}
 //	}
-package main
-
-import "fmt"
-
-func main() {
-	var sum, Sum int
-Loop:
-	for i := 1; i <= 14; i++ {
-		for j := 1; j <= i; j++ {
-			if Sum == 7 {
-				break Loop
-			}
-			fmt.Printf("A")
-			Sum += j
-		}
-		sum += i
-		if Sum == 6 {
-			break
-		}
-		//fmt.Println("i=", i, "sum=", sum)
-		fmt.Println("\n", sum)
-	}
-}
+//package main
+//
+//import "fmt"
+//
+//func main() {
+//	var sum, Sum int
+//Loop:
+//	for i := 1; i <= 14; i++ {
+//		for j := 1; j <= i; j++ {
+//			if Sum == 7 {
+//				break Loop
+//			}
+//			fmt.Printf("A")
+//			Sum += j
+//		}
+//		sum += i
+//		if Sum == 6 {
+//			break
+//		}
+//		//fmt.Println("i=", i, "sum=", sum)
+//		fmt.Println("\n", sum)
+//	}
+//}
 
 // day001
 // package main
@@ -281,4 +281,170 @@ Loop:
 //	fmt.Println(F)
 //}
 
-// 协作贡献修改推送测试
+// 协作贡献修改
+// package main
+//
+// import "fmt"
+//
+//	func main() {
+//		var Power, Name, Huawei = 2, 5, 6
+//		var Sum, Mo int
+//		var Liba, Dufu, Weiyunsuan int = 2, 4, 3
+//		Sum = Power + Name - Huawei
+//		Sum++
+//		Mo = Huawei % Power
+//		Guanxi := Power <= Huawei
+//
+//		//++Sum 无前自增自减
+//		Weiyunsuan = Dufu & Liba
+//		Weiyunsuan1 := Dufu | Liba
+//		Weiyunsuan2 := Dufu ^ Liba
+//		Weiyunsuan3 := Dufu << Liba
+//		Weiyunsuan4 := 4 >> 1
+//		println(Sum)
+//		println(Mo)
+//		fmt.Printf("Guanxi:%t", Guanxi)
+//		fmt.Printf("Liba:%b\nDufu:%b\nWeiyunsuan:%b", Liba, Dufu, Weiyunsuan)
+//		fmt.Printf("Liba:%b\nDufu:%b\nWeiyunsuan1:%b", Liba, Dufu, Weiyunsuan1)
+//		fmt.Printf("Liba:%b\nDufu:%b\nWeiyunsuan2:%b", Liba, Dufu, Weiyunsuan2)
+//		fmt.Printf("Liba:%b\nDufu:%b\nWeiyunsuan3:%b", Liba, Dufu, Weiyunsuan3)
+//		fmt.Printf("Liba:%b\nDufu:%b\nWeiyunsuan4:%b", Liba, Dufu, Weiyunsuan4)
+//	}
+//package main
+//
+//import "fmt"
+//
+//func main() {
+//
+//	var Liba, Dufu, Weiyunsuan int = 2, 4, 3
+//
+//	//++Sum 无前自增自减
+//	Weiyunsuan &= Dufu
+//	//fmt.Scanf("%d", &Dufu)
+//	//Weiyunsuan1 := Dufu | Liba
+//	//Weiyunsuan2 := Dufu ^ Liba
+//	//Weiyunsuan3 := Dufu << Liba
+//	Weiyunsuan4 := 4%2 | 2*2
+//
+//	fmt.Printf("Liba:%b\nDufu:%b\nWeiyunsuan4:%b", Liba, Dufu, Weiyunsuan4)
+//	fmt.Printf("Liba:%b\nDufu:%b\nWeiyunsuan:%b", Liba, Dufu, Weiyunsuan)
+//	fmt.Println(&Dufu)
+//}
+
+// package main
+//
+// import "fmt"
+//
+//	func main() {
+//		var score float64
+//		fmt.Println("请输入您的成绩：")
+//		fmt.Scanf("%f", &score)
+//		if score >= 90 {
+//			fmt.Println("优秀")
+//		} else if score >= 70 {
+//			fmt.Println("合格！")
+//		} else {
+//			fmt.Println("不合格！")
+//		}
+//
+// }
+// package main
+//
+// import "fmt"
+//
+//	func main() {
+//		////var Score int = 90
+//		//switch Score := 90; Score {
+//		//case 90:
+//		//	fmt.Println("A")
+//		//	fallthrough
+//		//case 80:
+//		//	fmt.Println("B")
+//		//case 70, 60:
+//		//	fmt.Println("一般！")
+//		//default:
+//		//	fmt.Println("差")
+//		//
+//		//}
+//		var sum int
+//		for i := 1; i <= 100; i++ {
+//			sum += i
+//		}
+//		for sum >= 100 {
+//
+//			fmt.Println("sum= ", sum)
+//			sum--
+//		}
+//
+// }
+// package main
+//
+// import "fmt"
+//
+//	func main() {
+//		const (
+//			Apple int = iota
+//			Xiaomi
+//			Huawei
+//			Redmi
+//			Meizu
+//			Honor
+//			Oppo
+//		)
+//		var InitList = [7]int{Apple, Xiaomi, Huawei, Redmi, Meizu, Honor, Oppo}
+//		for index, value := range InitList {
+//			fmt.Println("[InitList]index=", index, "value=", value)
+//
+//			switch value {
+//			case Apple:
+//				fmt.Println("红")
+//			case Xiaomi:
+//				fmt.Println("橙")
+//			case Huawei:
+//				fmt.Println("黄")
+//			case Redmi:
+//				fmt.Println("绿")
+//			case Meizu:
+//				fmt.Println("蓝")
+//			case Honor:
+//				fmt.Println("青")
+//			case Oppo:
+//				fmt.Println("紫")
+//			}
+//		}
+//	}
+//
+// package main
+//
+// import "fmt"
+//
+// func main() {
+//
+//	//var sum int
+//	for i := 0; i <= 5; i++ {
+//		for {
+//			fmt.Println(i)
+//			goto Loop
+//		}
+//	}
+//	fmt.Println("hhhhh")
+//
+// Loop:
+//
+//	fmt.Println("switc Loop")
+//
+// }
+package main
+
+import "fmt"
+
+func main() {
+p:
+	for i := 0; i < 2; i++ {
+		for j := 0; i < 2; j++ {
+			print(i, " ", j, " ")
+			break p
+		}
+	}
+	fmt.Println("外面世界真好！")
+}
