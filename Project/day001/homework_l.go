@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 
@@ -35,6 +37,8 @@ loop:
 			fmt.Println("Fizz, 这是：", i)
 		} else if i%5 == 0 {
 			fmt.Println("Buzz, 这是：", i)
+		} else {
+			fmt.Println(" 这是i：", i)
 		}
 	}
 
@@ -48,18 +52,31 @@ loop:
 	//AaAaAa
 	//AAAAAAA
 	// 法一：low：
+	//for i := 1; i < 101; i++ {
+	//	for j := 1; j <= i; j++ {
+	//		st := "A"
+	//		fmt.Print(st)
+	//	}
+	//	fmt.Println("", i)
+	//	//fmt.Println("这里是i的次数：", i)
+	//}
+
+	// 法二：
+	var sum = 1
 	for i := 1; i < 101; i++ {
 		for j := 1; j <= i; j++ {
 			st := "A"
 			fmt.Print(st)
+			sum++
+			if sum == 100 {
+				goto loop2
+			}
 		}
-		fmt.Println("", i)
-		//fmt.Println("这里是i的次数：", i)
+		fmt.Println("")
+
+	}
+loop2:
+	{
 	}
 
-	//for i := 1; i < 101; i++ {
-	//	st := "A" * i
-	//
-	//	fmt.Println(st)
-	//}
 }
