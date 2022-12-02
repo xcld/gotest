@@ -41,6 +41,41 @@ loop:
 			fmt.Println(" 这是i：", i)
 		}
 	}
+	//点评：
+	//样式1
+	//for i := 1; i < 101; i++ {
+	//	if i%3 == 0 && i%5 == 0 {
+	//		fmt.Printf("FizzBuzz,")
+	//	} else if i%3 == 0 {
+	//		fmt.Printf("Fizz,")
+	//	} else if i%5 == 0 {
+	//		fmt.Printf("Buzz,")
+	//	} else {
+	//		fmt.Printf("%d ,", i)
+	//	}
+	//}
+	// 1 ,2 ,Fizz,4 ,Buzz,Fizz,7 ,8 ,Fizz,Buzz,11 ,Fizz,13 ,14 ,FizzBuzz,16 ,17 ,Fizz,19 ,Buzz,Fizz,22 ,23 ,Fizz,Buzz,26 ,Fizz,28 ,29 ,FizzBuzz,31 ,32 ,Fizz,34 ,Buzz,Fizz,37 ,38 ,Fizz,Buzz,41 ,Fizz,43 ,44 ,FizzBuzz,46 ,47 ,Fizz,49 ,Buzz,Fizz,52 ,53 ,Fizz,Buzz,56 ,Fizz,58 ,59 ,FizzBuzz,61 ,62 ,Fizz,64 ,Buzz,Fizz,67 ,68 ,Fizz,Buzz,71 ,Fizz,73 ,74 ,FizzBuzz,76 ,77 ,Fizz,79 ,Buzz,Fizz,82 ,83 ,Fizz,Buzz,86 ,Fizz,88 ,89 ,FizzBuzz,91 ,92 ,Fizz,94 ,Buzz,Fizz,97 ,98 ,Fizz,Buzz,
+	//方法2：
+	//const (
+	//	FIZZ = 3
+	//	BUZZ = 5
+	//) //定义两常量增加代码可读性
+	//var Bu bool
+	//for i := 1; i < 100; i++ {
+	//	Bu = false
+	//	if i%FIZZ == 0 {
+	//		fmt.Printf("Fizz")
+	//		Bu = true
+	//	}
+	//	if i%BUZZ == 0 {
+	//		fmt.Printf("Buzz")
+	//		Bu = true
+	//	}
+	//	if !Bu { //上都不符合原值输出
+	//		fmt.Printf("%v", i)
+	//	}
+	//	fmt.Println() //换行
+	//}
 
 	//Q3.(1) 字符串
 	//1.建立一个 Go 程序打印下面的内容(到 100 个字符):
@@ -81,7 +116,20 @@ loop2:
 
 }
 
+//点评：
+//上面代码输出少了个A 一共才99个
+//A 2
+//AA 4
+//AAA 7
+//AAAA 11
+//AAAAA 16
+//AAAAAA 22
+//AAAAAAA 29
+//AAAAAAAA 37
+//AAAAAAAAA 46
+//AAAAAAAAAA 56
+//AAAAAAAAAAA 67
+//AAAAAAAAAAAA 79
+//AAAAAAAAAAAAA 92
+//AAAAAAAA
 // 测试提交
-
-
-
