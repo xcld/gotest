@@ -126,7 +126,7 @@ fmt.Println(d / f)
    - `convert.exe -C 华氏温度` 转换为摄氏温度 
    - `convert.exe -K 摄氏/华氏温度` 单位用大小写c/f区分，自动转换为相应开尔文温度，其他情况输入错误，请重新输入。
    - `convert.exe -A 摄氏/华氏温度`单位用大小写c/f区分，根据当前温度自动高温或低温告警。
-   - example `convert.exe -C  97.7` 输出  36.5℃
+   - example: `convert.exe -C  97.70` 输出  36.50℃,`convert.exe -K  37c` 输出  310.15K
 
    **已知：**
    
