@@ -122,10 +122,11 @@ fmt.Println(d / f)
 利用前面所学的知识点完成以下实操题
 1. 完成一个温度转换程序，精度为小数点后两位 
    - 比如输入 `convert.exe -F 摄氏温度` 转换为华氏温度
-   - `convert.exe -h/--help` 显示帮助信息
+   - `convert.exe -h/--help` 显示帮助信息，输入错误或默认情况打印
    - `convert.exe -C 华氏温度` 转换为摄氏温度 
    - `convert.exe -K 摄氏/华氏温度` 单位用大小写c/f区分，自动转换为相应开尔文温度，其他情况输入错误，请重新输入。
    - `convert.exe -A 摄氏/华氏温度`单位用大小写c/f区分，根据当前温度自动高温或低温告警。
+   - example `convert.exe -C  97.7` 输出  36.5℃
 
    **已知：
    
