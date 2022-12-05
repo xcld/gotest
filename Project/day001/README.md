@@ -159,3 +159,33 @@ fmt.Println(d / f)
     日最低气温将降至零下6℃以下。
     
 ``` 
+```go
+参考命令行实现代码示范：
+
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	s, sep := "", ""
+	for index, arg := range os.Args[0:] {
+		s += sep + arg
+		fmt.Println(index, arg)
+		// sep = " "
+	}
+	fmt.Println(s)
+
+}
+
+// // os.Args变量是一个字符串（string）的切片（slice）,类似python的切片  s[m:n]这个切片，0 ≤ m ≤ n ≤ len(s)，包含n-m个元素。os.Args输出的是执行文件信息
+// // PS D:\GO_workspace\BASIC> go run .\命令行参数.go    111 222 333 444 555
+// // 0 C:\Users\XUE~1.XIO\AppData\Local\Temp\go-build1439121805\b001\exe\命令行参数.exe
+// // 1 111
+// // 2 222
+// // 3 333
+// // 4 444
+//
+```
