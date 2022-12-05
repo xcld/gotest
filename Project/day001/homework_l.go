@@ -32,13 +32,13 @@ loop:
 	//编写一个程序，打印从 1 到 100 的数字。当是三个倍数就打印“Fizz代智数字，当是五的倍数就打印“Buzz”。 当数字同时是三和五的倍数时，打印“FizzBuzz”。
 	for i := 1; i < 101; i++ {
 		if i%3 == 0 && i%5 == 0 {
-			fmt.Println("FizzBuzz, 这是：", i)
+			fmt.Println("FizzBuzz")
 		} else if i%3 == 0 {
-			fmt.Println("Fizz, 这是：", i)
+			fmt.Println("Fizz")
 		} else if i%5 == 0 {
-			fmt.Println("Buzz, 这是：", i)
+			fmt.Println("Buzz")
 		} else {
-			fmt.Println(" 这是i：", i)
+			fmt.Println(i)
 		}
 	}
 
@@ -62,7 +62,7 @@ loop:
 	//}
 
 	// 法二：
-	var sum = 1
+	var sum = 0 // 想清楚是从零开始还是从1开始
 	for i := 1; i < 101; i++ {
 		for j := 1; j <= i; j++ {
 			st := "A"
@@ -72,7 +72,7 @@ loop:
 				goto loop2
 			}
 		}
-		fmt.Println("")
+		fmt.Println("  ", i)
 
 	}
 loop2:
@@ -82,6 +82,3 @@ loop2:
 }
 
 // 测试提交
-
-
-
