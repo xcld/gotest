@@ -37,14 +37,14 @@ func main() {
 	FloatValue, _ := strconv.ParseFloat(temp, 64)
 	//fmt.Printf("%T,%f \n", FloatValue, FloatValue)
 
-	if st == "-F" {
+	if st == "-F" { // go run .\convert.go -F 37.5
 		fmt.Printf("摄氏%d,  转华氏%d：", temp, Decimal((FloatValue*9/5)+32))
-	} else if st == "-C" {
+	} else if st == "-C" { // go run .\convert.go -C 97.5
 		fmt.Printf("华氏%d,  转摄氏%d：", temp, Decimal((FloatValue-32.0)*5/9))
 	} else if st == "-h" {
 		fmt.Println("帮助")
 	} else if st == "-K" {
-		if typ == "c" {
+		if typ == "c" { // go run .\convert.go -K 37.5 c
 			fmt.Printf("摄氏%d,  转开尔文%d：", temp, Decimal(FloatValue+273.15))
 		} else if typ == "f" {
 			fmt.Printf("华氏%d,  转开尔文%d：", temp, Decimal((FloatValue*9/5)+32+273.15))
