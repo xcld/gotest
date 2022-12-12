@@ -41,7 +41,7 @@ func main() {
 		fmt.Printf("摄氏%d,  转华氏%d：", temp, Decimal((FloatValue*9/5)+32))
 	} else if st == "-C" { // go run .\convert.go -C 97.5
 		fmt.Printf("华氏%d,  转摄氏%d：", temp, Decimal((FloatValue-32.0)*5/9))
-	} else if st == "-h" {
+	} else if st == "-h" || st == "--help" {
 		fmt.Println("帮助")
 	} else if st == "-K" {
 		if typ == "c" { // go run .\convert.go -K 37.5 c
