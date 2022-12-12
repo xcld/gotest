@@ -50,36 +50,81 @@ func main() {
 
 	//4. 任意输入三条边，并判断能否组成三角形，若能，判断三角形的类型和计算三角形的面积。
 	//两条较短边的平方和大于最长边的平方，此三角形就是锐角三角形；
+	//c² < a²+b²
 	//两条较短边的平方和小于最长边的平方，此三角形就是钝角三角形；
 	//两条边短边的平方和等于最长边的平方，此三角形就是直角三角形.
-	var a, b, c int
+
+	//面积公式：
+	//p = (a+b+c)/2
+	//s = 根号(p * (p - a) * (p - b) * (p - c))
+
+	var a, b, c float64
 	fmt.Println("请输入三条边: ")
-	fmt.Scanf("%d %d %d", &a, &b, &c)
-	c = a
-	fmt.Println(a, b, c)
+	fmt.Scanf("%f %f %f", &a, &b, &c)
+	//fmt.Println(a, b, c)
+	// 对用户输入的数字排好大小，用于计算三角形类型
 	max, mid, min := a, a, a
-	if b >= max {
+	flag_max := 0
+	flag_min := 0
+	if a >= b {
+		if a >= c {
+			max = a
+			flag_max = 1
+		} else {
+			max = c
+			flag_max = 3
+		}
+	} else if b >= c {
 		max = b
-	} else if max >= b && b >= min {
-		mid = b
-		b = mid
+		flag_max = 2
 	} else {
-		min = b
+		max = c
+		flag_max = 3
 	}
 
-	if c >= max {
-		max = c
-	} else if max >= c && c >= min {
-		mid = c
+	if a <= b {
+		if a <= c {
+			min = a
+			flag_min = 1
+		} else {
+			min = c
+			flag_min = 3
+		}
+	} else if b <= c {
+		min = b
+		flag_min = 2
 	} else {
 		min = c
+		flag_min = 3
 	}
 
-	fmt.Println(min, mid, max)
+	switch {
+	case flag_max+flag_min == 3:
+		mid = c
+	case flag_max+flag_min == 4:
+		mid = b
+	case flag_max+flag_min == 5:
+		mid = a
+	}
+
+	//fmt.Println(min, mid, max)
 
 	if (a+b) > c && (a+c) > b && (c+b) > a {
-		fmt.Println("是三角形")
-
+		//fmt.Println("是三角形")
+		if max*max > min*min+mid*mid {
+			fmt.Println("是钝角三角形")
+			p := (a + b + c) / 2
+			s := math.Sqrt(float64(p * (p - a) * (p - b) * (p - c)))
+			fmt.Println("面积为：", s)
+		} else if max*max == min*min+mid*mid {
+			fmt.Println("是直角三角形")
+			fmt.Println("面积为：", min*mid/2)
+		} else {
+			fmt.Println("是锐角三角形")
+			p := (a + b + c) / 2
+			s := math.Sqrt(float64(p * (p - a) * (p - b) * (p - c)))
+			fmt.Println("面积为：", s)
+		}
 	} else {
 		fmt.Println("不能构成三角形")
 	}
