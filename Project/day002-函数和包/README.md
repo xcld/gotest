@@ -291,3 +291,29 @@ func main() {
 - C: 10 6 80
 - D: 10 60 8
 - E: 编译报错
+## 递归
+Redhat的首席工程师、Prometheus开源项目Maintainer [Bartłomiej Płotka](https://twitter.com/bwplotka) 在Twitter上出了一道Go编程题，结果超过80%的人都回答错了。
+
+题目如下所示，回答下面这段程序的输出结果。
+
+```go
+// named_return.go
+package main
+import "fmt"
+func aaa() (done func(), err error) {
+	return func() { print("aaa: done") }, nil
+}
+func bbb() (done func(), _ error) {
+	done, err := aaa()
+	return func() { print("bbb: surprise!"); done() }, err
+}
+func main() {
+	done, _ := bbb()
+	done()
+}
+```
+
+* A: `bbb: surprise!`
+* B: `bbb: surprise!aaa: done`
+* C: 编译报错
+* D: 递归栈溢出
