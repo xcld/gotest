@@ -24,6 +24,26 @@
   - 5.5.3 不同作用域同名变量
 - 5.6 匿名函数与闭包
    `闭包=函数+引用环境` 匿名函数都是闭包
+```go
+//闭包案例示范，文件后缀名检测程序
+func makeSuffixFunc(suffix string) func(string) string {
+ //声明一个makeSuffixFunc函数，接收一个suffix参数 ，返回一个func（//接收string参数）返回string类型的函数
+    return func(name string) string {  //return 一个和上面定义结构一样的匿名函数
+        if !strings.HasSuffix(name, suffix) { //判断字符串后缀的string包，如果name以suffix为后缀返回true
+			// name 是匿名函数定义变量，这个suffix是外层函数的变量  闭包=函数+外层变量的引用
+             return name + suffix
+        }
+        return name
+    }
+}
+
+func main() {
+	jpgFunc := makeSuffixFunc(".jpg")
+    txtFunc := makeSuffixFunc(".txt")
+	fmt.Println(jpgFunc("test")) //test.jpg
+    fmt.Println(txtFunc("test")) //test.txt
+}
+```
 - 5.7 延迟调用defer
    - 5.7.1 defer作用
    - 5.7.2 多个defer执行顺序
