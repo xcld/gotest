@@ -29,7 +29,7 @@
 func makeSuffixFunc(suffix string) func(string) string {
  //声明一个makeSuffixFunc函数，接收一个suffix参数 ，返回一个func（//接收string参数）返回string类型的函数
     return func(name string) string {  //return 一个和上面定义结构一样的匿名函数
-        if !strings.HasSuffix(name, suffix) { //判断字符串后缀的string包，如果name以suffix为后缀返回true
+        if !strings.HasSuffix(name, suffix) { //判断字符串后缀的string包，如果!(name以suffix为后缀返回true)
 			// name 是匿名函数定义变量，这个suffix是外层函数的变量  闭包=函数+外层变量的引用
              return name + suffix
         }
