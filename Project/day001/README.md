@@ -78,6 +78,26 @@ fmt.Println(f)
 ```
     选错了，选了A；运行结果是B，原因不清楚
 ```
+## 前三题解析
+
+这道题主要考察3个知识点：
+
+* 对于变量而言，如果没有显式指定数据类型，编译器会根据赋值自动推导出确定的数据类型。
+
+  整数的默认类型是`int`，浮点数的默认类型是`float64`，官方说明如下：
+
+  > An untyped constant has a *default type* which is the type to which the constant is implicitly converted in contexts where a typed value is required, for instance, in a [short variable declaration](https://go.dev/ref/spec#Short_variable_declarations) such as `i := 0` where there is no explicit type. The default type of an untyped constant is `bool`, `rune`, `int`, `float64`, `complex128` or `string` respectively, depending on whether it is a boolean, rune, integer, floating-point, complex, or string constant.
+* 对于常量而言，**如果没有显式指定数据类型**，编译器同样会推导出一个数据类型，**但是没有显式指定数据类型的常量在代码上下文里可以根据需要隐式转化为需要的数据类型进行计算**。
+
+* Go不允许不同的数据类型做运算。当变量和**没有显式指定数据类型的常量**混合在一起运算时，如果常量转化成变量的类型不会损失精度，那常量会自动转化为变量的数据类型参与运算。如果常量转化成变量的类型会损失精度，那就会编译报错。
+
+对于题目1：变量`y` 没有显式指定数据类型，但是根据后面的赋值`5.2`，编译器自动推导出变量`y`的数据类型是float64。常量`z`没有显式指定数据类型，编译器自动推导出的类型是`int`，但是在运算`y/z`时，因为`y`是float64类型，`z`转化为float64类型不会损失精度，所以`z`在运算时会自动转换为float64类型，所以本题的运算结果是`2.6`，答案是`A`。
+
+对于题目2：变量`b`没有显式指定数据类型，根据后面的赋值`2`，编译器自动推导出变量`b`的数据类型是int。常量`a`没有显式指定数据类型，编译器自动推导出的类型是float64，但是在运算`a/b`时，因为`b`是int类型，`a`转换为int类型不会损失精度，所以`a`在运算时会自动转换为int类型参与计算，所以本题的结果是`7/2`，结果是`3`，答案是`B`。
+
+对于题目3：变量`a`没有显式指定数据类型，根据后面的赋值`40`，编译器自动推导出变量`a`的数据类型是int。常量`100.0`没有显式指定数据类型，编译器自动推导出的类型是float64，但是在运算`a/100.0`时，因为`a`是int类型，`100.0`转换为int类型不会损失精度，所以`100.0`在运算时会自动转换为int类型参与计算，所以本题的结果是`40/100`，结果是`0`，答案是`A`。
+
+
 ####  思考题
 
 题目1：
@@ -117,6 +137,13 @@ fmt.Println(t / u)
 d := 9.0
 const f int = 2
 fmt.Println(d / f)
+```
+```
+1-4题解析：
+题目1：编译报错。因为变量a是float64类型，变量b是int类型，不同类型不能一起运算。
+题目2：1.25。未指定数据类型的常量在代码执行时根据需要自动转换数据类型，这里会当做浮点数进行计算以保留原始的精度，结果就是1.25。
+题目3：编译报错。因为变量u是int类型，常量t如果转换为int类型，会从4.8变为4，损失精度，所以编译报错。
+题目4：编译报错，因为常量f明确声明为int类型，d是float64类型，不同数据类型不能做除法。由于公众号文章修改字数有限制，题目4是后面新加的，可以点击文末阅读原文查看题目。
 ```
 ### 实操题
 利用前面所学的知识点完成以下实操题
