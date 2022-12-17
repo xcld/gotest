@@ -12,13 +12,13 @@ import (
 
 func Centigrade(Fah float64) (Cen float64) { //华氏转摄氏
 	Fah = Cen*9/5 + 32
-	fmt.Printf("摄氏温度为:%0.2f℃", Cen)
+	fmt.Printf("摄氏温度为:%0.2f℃\n", Cen)
 	return Cen
 }
 
 func Fahrenheit(Cen float64) (Fah float64) { //摄氏转华氏
 	Cen = (Fah - 32) * 5 / 9
-	fmt.Printf("华氏温度为:%0.2fF", Fah)
+	fmt.Printf("华氏温度为:%0.2fF\n", Fah)
 	return Fah
 }
 
@@ -30,7 +30,7 @@ func Thermodynamic(Unit string, Scale float64) (Kel float64) { //摄氏华氏自
 	} else {
 		println("error!,please try again")
 	}
-	fmt.Printf("开尔文温度为:%0.2fK", Kel)
+	fmt.Printf("开尔文温度为:%0.2fK\n", Kel)
 	return Kel
 }
 func AutoString(Str string) (Unit string, Scale float64) { //温度和单位字符串提取和数字字符串转为浮点型
