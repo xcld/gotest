@@ -11,14 +11,18 @@ import (
 //Centigrade scale   Anders Celsius
 
 func Centigrade(Fah float64) (Cen float64) { //华氏转摄氏
-	Fah = Cen*9/5 + 32
-	fmt.Printf("摄氏温度为:%0.2f℃", Cen)
+	//Fah = Cen*9/5 + 32
+	Cen = (Fah - 32) * 5 / 9
+	//fmt.Printf("Fah:%f\n", Fah)
+	fmt.Printf("华氏温度：%0.2fF 转摄氏温度为:%0.2f℃\n", Fah, Cen)
 	return Cen
 }
 
 func Fahrenheit(Cen float64) (Fah float64) { //摄氏转华氏
-	Cen = (Fah - 32) * 5 / 9
-	fmt.Printf("华氏温度为:%0.2fF", Fah)
+	//Cen = (Fah - 32) * 5 / 9
+	Fah = Cen*9/5 + 32
+	//fmt.Printf("Cen:%f\n", Cen)
+	fmt.Printf("摄氏温度：%0.2f℃ 转华氏温度为:%0.2fF\n", Cen, Fah)
 	return Fah
 }
 
@@ -30,12 +34,12 @@ func Thermodynamic(Unit string, Scale float64) (Kel float64) { //摄氏华氏自
 	} else {
 		println("error!,please try again")
 	}
-	fmt.Printf("开尔文温度为:%0.2fK", Kel)
+	fmt.Printf("开尔文温度为:%0.2fK\n", Kel)
 	return Kel
 }
 func AutoString(Str string) (Unit string, Scale float64) { //温度和单位字符串提取和数字字符串转为浮点型
 	i := len(Str) - 1
-	Str2, _ := strconv.ParseFloat(Str, 64)
+	Str2, _ := strconv.ParseFloat(Str[:i], 64)
 	Unit = Str[i:]
 	Scale = Str2
 	return Unit, Scale
