@@ -11,23 +11,45 @@ func sort_two_num(a, b int) (c, d int) {
 	return c, d
 }
 
+//// 操作题第二题点评,多值返回,可少写一点
+//func order(a, b int) (int, int) {
+//	if a > b {
+//		return b, a //只要a比b大就调换顺序，其他原样输出
+//	}
+//	return a, b
+//}
+
+// 变参没问题
 func any_arg(args ...int) {
 	for _, n := range args {
 		fmt.Println("任意个数的参数n： ", n)
 	}
 }
 
-func plus2(a int) (b int) {
+// 第5题题意是，编写一个函数返回另外一个函数，用到闭包+匿名函数的知识，外层函数传入参数，内层匿名函数引用外层函数参数。训练闭包
+func plus2(a int) (b int) { // 这答案不对
 	return a + 2
 }
+
+//func plus2() func(int) {
+//	return func(x int) int { return x+2} //在返回语句中定义了一个 +2 的函数
+//}
 
 func plusX(a, x int) (b int) {
 	return a + x
 }
 
+//同理可得还是闭包，
+//func PlusX(x int) func(int) int{
+//	return func(y int) int {return x+y}
+//}
+
 func add(x, y int) int {
 	return x + y
 }
+
+//第6题没写
+//思考题第一题也没写，用到知识点函数数据类型定义+返回值为函数以及闭包知识
 
 //func calc(x, y int, op func(int, int) int) int {
 //	return op(x, y)
@@ -69,6 +91,8 @@ func main() {
 	var f Add
 	defer f(1, 2)
 	fmt.Println("end")
+
+	//下面有点混乱了，不好区分哪题是哪题了，用到知识点闭包和defer特性，以及函数数据类型定义，递归和部分defer没做。
 
 	//var t T
 	//defer t.M(1).M(2)

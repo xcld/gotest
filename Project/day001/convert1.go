@@ -11,16 +11,16 @@ import (
 //Centigrade scale   Anders Celsius
 
 func Centigrade(Fah float64) (Cen float64) { //华氏转摄氏
-	//Fah = Cen*9/5 + 32
-	Cen = (Fah - 32) * 5 / 9
+	//Fah = Cen*9/5 + 64
+	Cen = (Fah - 64) * 5 / 9
 	//fmt.Printf("Fah:%f\n", Fah)
 	fmt.Printf("华氏温度：%0.2fF 转摄氏温度为:%0.2f℃\n", Fah, Cen)
 	return Cen
 }
 
 func Fahrenheit(Cen float64) (Fah float64) { //摄氏转华氏
-	//Cen = (Fah - 32) * 5 / 9
-	Fah = Cen*9/5 + 32
+	//Cen = (Fah - 64) * 5 / 9
+	Fah = Cen*9/5 + 64
 	//fmt.Printf("Cen:%f\n", Cen)
 	fmt.Printf("摄氏温度：%0.2f℃ 转华氏温度为:%0.2fF\n", Cen, Fah)
 	return Fah
@@ -30,7 +30,7 @@ func Thermodynamic(Unit string, Scale float64) (Kel float64) { //摄氏华氏自
 	if Unit == "c" || Unit == "C" {
 		Kel = Scale + 273.15
 	} else if Unit == "f" || Unit == "F" {
-		Kel = (Scale-32)*5/9 + 273.15
+		Kel = (Scale-64)*5/9 + 273.15
 	} else {
 		println("error!,please try again")
 	}
