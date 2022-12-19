@@ -76,13 +76,13 @@ func main() {
 
 4. 被defer的函数执行顺序满足LIFO原则，后defer的先执行。
 
-   ```go
-   func b() {
-       for i := 0; i < 4; i++ {
-           defer fmt.Print(i)
-       }
+ ```go
+func b() {
+   for i := 0; i < 4; i++ {
+       defer fmt.Print(i)
    }
-   ```
+}
+```
 
    上例中，输出的结果是3210，后defer的先执行。
 
@@ -134,8 +134,22 @@ func main() {
 2. 整数顺序 ，编写函数，返回其（两个）参数正确的（自然）数字顺序：
    - f(7,2) → 2,7
    - f(2,7) → 2,7
+```go
+func sort_two_num(a, b int) (int) {
+	if a >= b {
+		return b, a
+	}
+	return a, b
+}
+```
 3. 变参，编写函数接受整数类型变参，并且每行打印一个数字。
-
+```go
+func any_arg(args ...int) {
+	for _, n := range args {
+		fmt.Println("任意个数的参数n： ", n)
+	}
+}
+```
 ~~4. -斐波那契数列，斐波那契数列以：1, 1, 2, 3, 5, 8, 13, . . . 开始。或者用数学形式表达：x1 = 1; x2 =
       1; xn = xn−1 + xn−2 ∀n > 2。
       编写一个接受 int 值的函数，并给出这个值得到的斐波那契数列~~ （到数组继续）
@@ -143,12 +157,32 @@ func main() {
 5. 函数返回一个函数：
    - 编写一个函数返回另一个函数，返回的函数的作用是对一个整数 +2。函数的名
         称叫做 plusTwo。然后可以像下面这样使用：
-   ```go
-        p := plusTwo()
-        fmt.Printf("%v\n", p(2))
-   ```
+```go
+p := plusTwo()
+fmt.Printf("%v\n", p(2))
+```
    - 使上面函数更加通用化，创建一个 plusX(x) 函数，返回一个函数用于对整
       数加上 x。 
+```go
+func plus2(a int) (b int) {
+	return a + 2
+}
+
+func plusX(a, x int) (b int) {
+	return a + x
+}
+
+// 编写一个函数返回另外一个函数，用到闭包+匿名函数的知识，外层函数传入参数，内层匿名函数引用外层函数参数。
+//训练闭包
+//func plus2() func(int) {
+//	return func(x int) int { return x+2} //在返回语句中定义了一个 +2 的函数
+//}
+
+//同理可得还是闭包，
+//func PlusX(x int) func(int) int{
+//	return func(y int) int {return x+y}
+//}
+```
 6. 程序改错题，下面的程序有什么错误？
 ```go
 func main() {
@@ -158,6 +192,8 @@ fmt.Printf("%v\n", i)
 fmt.Printf("%v\n", i)
 }
 ```
+    i是局部变量，在for循环结束后就会被回收掉，所有后面的i会找不到
+
 # 思考题
 1. ret2的值是什么？
 ```go
@@ -171,6 +207,8 @@ func main() {
 	ret2 := calc(10, 20, add)
 	fmt.Println(ret2) 
 }
+
+// 结果是30
 ```
 ## 闭包
 2. 以下程序输出的值为？为什么
@@ -185,13 +223,13 @@ func adder() func(int) int {
 }
 func main() {
 	var f = adder()
-	fmt.Println(f(10)) 
-	fmt.Println(f(20)) 
-	fmt.Println(f(30)) 
-
-	f1 := adder()
-	fmt.Println(f1(40)) 
-	fmt.Println(f1(50)) 
+	fmt.Println(f(10)) //此时是闭包，内部函数对外部函数的变量的调用，所以x不会被释放掉，10
+    fmt.Println(f(20))  // 30
+    fmt.Println(f(30))  //60
+    
+    f1 := adder()
+    fmt.Println(f1(40))  // 此时是新建了一个闭包所以，这里x又从0开始了,40
+    fmt.Println(f1(50))  // 90
 }
 ```
 ```go
@@ -211,9 +249,9 @@ func calc(base int) (func(int) int, func(int) int) {
 
 func main() {
 	f1, f2 := calc(10)
-	fmt.Println(f1(1), f2(2)) 
-	fmt.Println(f1(3), f2(4)) 
-	fmt.Println(f1(5), f2(6)) 
+	fmt.Println(f1(1), f2(2))  // 此时也是闭包的调用，所以base的起始值为10且不会被释放掉，11 9
+    fmt.Println(f1(3), f2(4))  // 12 8
+    fmt.Println(f1(5), f2(6)) //13 9
 }
 ```
 ## defer
@@ -232,6 +270,7 @@ func main() {
 	t.M(3).M(4)
 }
 ```
+- 函数的用法没看懂，defer的顺序不理解，为为什么是1342，不是3412
 
 题目2："end"会被打印么？`f(1, 2)`会不会编译报错？
 
@@ -244,6 +283,7 @@ func main() {
 	defer f(1, 2)
 	fmt.Println("end")
 }
+// 会被打印， 不清楚原因
 ```
 题目3：
 ```go
@@ -273,6 +313,8 @@ func main() {
 - C: 12
 - D: 13
 - E: 15
+### 这题看不懂
+
 
 题目4：程序运行结果？
 ```go
@@ -311,6 +353,8 @@ func main() {
 - C: 10 6 80
 - D: 10 60 8
 - E: 编译报错
+#### 60和80是闭包的结果，0不清楚
+
 ## 递归
 Redhat的首席工程师、Prometheus开源项目Maintainer [Bartłomiej Płotka](https://twitter.com/bwplotka) 在Twitter上出了一道Go编程题，结果超过80%的人都回答错了。
 
@@ -337,3 +381,5 @@ func main() {
 * B: `bbb: surprise!aaa: done`
 * C: 编译报错
 * D: 递归栈溢出
+
+#### 猜的递归溢出，不知道原因
