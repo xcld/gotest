@@ -49,7 +49,7 @@ func add(x, y int) int {
 }
 
 //第6题没写
-//思考题第一题也没写，用到知识点函数类型定义+返回值为函数以及闭包知识
+//思考题第一题也没写，用到知识点函数数据类型定义+返回值为函数以及闭包知识
 
 //func calc(x, y int, op func(int, int) int) int {
 //	return op(x, y)
@@ -92,7 +92,7 @@ func main() {
 	defer f(1, 2)
 	fmt.Println("end")
 
-	//下面有点混乱了，不好区分哪题是哪题了，用到知识点闭包和defer特性，以及函数类型定义，递归和部分defer没做。
+	//下面有点混乱了，不好区分哪题是哪题了，用到知识点闭包和defer特性，以及函数数据类型定义，递归和部分defer没做。
 
 	//var t T
 	//defer t.M(1).M(2)
