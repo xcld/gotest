@@ -211,7 +211,7 @@ fmt.Printf("%v\n", i)
 }
 ```
     i是局部变量，在for循环结束后就会被回收掉，所有后面的i会找不到
-
+点评：说得没错，找不到直接定义一个全局变量i，这题就搞完了。
 # 思考题
 1. ret2的值是什么？
 ```go
@@ -289,6 +289,43 @@ func main() {
 }
 ```
 - 函数的用法没看懂，defer的顺序不理解，为为什么是1342，不是3412
+### 上题解析
+这道题主要考察以下知识点：
+
+* 被`defer`的函数或方法什么时候执行？
+
+* 被`defer`的函数或方法的参数的值是什么时候确定的？
+
+* 被`defer`的函数或方法如果存在多级调用是什么机制？比如本题的`t.M(n).M(n)`就存在二级调用，先调用了`M(n)`函数，再调用了`M()`方法。
+
+   
+
+## 解析
+
+我们再看看官方文档怎么说的：
+
+>Each time a "defer" statement executes, the function value and parameters to
+>the call are evaluated as usual and saved anew but the actual function is not 
+>invoked. 
+>
+>Instead, deferred functions are invoked immediately before the 
+>surrounding function returns, in the reverse order they were deferred. 
+>
+>That is, if the surrounding function returns through an explicit return statement, 
+>deferred functions are executed after any result parameters are set by that 
+>return statement but before the function returns to its caller. 
+>
+>If a deferred function value evaluates to nil, execution panics when the function is 
+>invoked, not when the "defer" statement is executed.
+官方文档的前两句话对我们求解本题至关重要，用中文来表述就是：
+
+**假设我们在函数`A`的函数体内运行了`defer B(params)`，那被`defer`的函数`B`的参数会像普通函数调用一样被即时计算，但是被`defer`的函数`B`的调用会延迟到函数`A` return或者panic之前执行。**
+
+如果`defer`后面跟的是多级函数的调用，只有最后一个函数会被延迟执行。
+
+比如上例里的`defer t.M(n)`中，`M(n)`是会被即时执行的，不会延后，只有最后一个方法`M(n)`的调用会被延后执行。
+
+同时，函数的传参也是被即时计算的，也就是`defer t.M(n).M(n)`里涉及的参数`n`的值也是被即时计算保存好的，延后执行的时候就用事先计算好的值。
 
 题目2："end"会被打印么？`f(1, 2)`会不会编译报错？
 
@@ -332,6 +369,114 @@ func main() {
 - D: 13
 - E: 15
 ### 这题看不懂
+主要考察以下知识点：
+
+* 被`defer`的函数的值是什么时候确定的？**注意**：这里说的是函数值，不是函数的参数。
+* 如果函数的值是`nil`，那`defer`一个nil函数是什么结果？
+* 多个被`defer`的函数的执行先后顺序，遵循LIFO原则。
+* `defer` 和`recover`结合可以捕获`panic`。
+* `defer`如果对函数的命名返回值参数做修改，有什么影响？
+
+## 解析
+
+### 函数值
+
+上面提到了函数值的概念，对应的英文是`function value`。可能刚学习Go的同学还不太了解，我先讲解下这个概念。
+
+首先，函数和`struct`，`int`等一样，也是一个类型(type)。
+
+我们可以先定义一个函数类型，再声明一个该函数类型的变量，并且给该变量赋值。该函数类型变量的值我们就可以叫做函数值。看下面的代码示例就一目了然了。
+
+```go
+package main
+import "fmt"
+// 函数类型FuncType
+type FuncType func(int) int
+// 定义变量f1, 类型是FuncType
+var f1 FuncType = func(a int) int { return a }
+// 定义变量f, 类型是一个函数类型，函数签名是func(int) int
+// 在main函数里给f赋值，零值是nil
+var f func(int) int
+func main() {
+	fmt.Println(f1(1))
+	// 定义变量f2，类型是FuncType
+	var f2 FuncType
+	f2 = func(a int) int {
+		a++
+		return a
+	}
+	fmt.Println(f2(1))
+	// 给函数类型变量f赋值
+	f = func(a int) int {
+		return 10
+	}
+	fmt.Println(f(1))
+}
+```
+
+我们平时实现函数的时候，通常是把函数的类型定义，函数变量和变量赋值一起做了。
+
+函数类型的变量如果只声明不初始化，零值是nil，也就是默认值是nil。
+
+通过上面的例子我们知道可以先定义函数类型，后面再定义函数类型的变量。
+
+
+
+### 原理解析
+
+我们再回顾下官方文档怎么说的：
+
+>Each time a "defer" statement executes, the function value and parameters to
+>the call are evaluated as usual and saved anew but the actual function is not 
+>invoked. 
+>
+>Instead, deferred functions are invoked immediately before the 
+>surrounding function returns, in the reverse order they were deferred. 
+>
+>That is, if the surrounding function returns through an explicit return statement, 
+>deferred functions are executed after any result parameters are set by that 
+>return statement but before the function returns to its caller. 
+>
+>If a deferred function value evaluates to nil, execution panics when the function is 
+>invoked, not when the "defer" statement is executed.
+本题的代码里的`bar()`函数在return之前按照如下顺序执行
+
+| 执行                                | 执行结果                                                     |
+| ----------------------------------- | ------------------------------------------------------------ |
+| 执行return 1                        | 把1赋值给函数返回值参数`r`                                   |
+| 执行f()                             | 因为`f`的值在`defer f()`这句执行的时候就已经确定下来是nil了，所以会引发panic |
+| 执行`bar`函数里第1个被`defer`的函数 | r先加4，值变为5，然后recover捕获上一步的panic，r的值再加8，结果就是13 |
+| `bar()`返回`r`的值                  | r的值是13，返回13。`main`里打印13                            |
+
+因此本题的运行结果是13，答案是`D`。
+
+
+
+##  总结
+
+在`defer`第1篇文章里我们列出了`defer`六大原则，参考[Go defer语义6大原则](https://mp.weixin.qq.com/s?__biz=Mzg2MTcwNjc1Mg==&mid=2247483756&idx=1&sn=d536fa3340e1d5f91d72eaa8b67c8123&chksm=ce124e03f965c715e26f5943948e17d8e0ebb3c4a3a180a149219a610f83fc6eb77b3b166b6a&token=1521159887&lang=zh_CN#rd)。
+
+本文再总结下本题目涉及的`defer`语义另外2大注意事项：
+
+* 被defer的函数值(function value)在执行到defer语句的时候就被确定下来了。
+
+  ```go
+  package main
+  
+  import "fmt"
+  
+  func main() {
+  	defer func() {
+  		r := recover()
+  		fmt.Println(r)
+  	}()
+  	var f func(int) // f没有初始化赋值，默认值是nil
+  	defer f(1) // 函数变量f的值已经确定下来是nil了
+  	f = func(a int) {}
+  }
+  ```
+
+* 如果被`defer`的函数或方法的值是nil，在执行`defer`这条语句的时候不会报错，但是最后调用nil函数或方法的时候就引发`panic: runtime error: invalid memory address or nil pointer dereference`。
 
 
 题目4：程序运行结果？
@@ -372,6 +517,42 @@ func main() {
 - D: 10 60 8
 - E: 编译报错
 #### 60和80是闭包的结果，0不清楚
+###点评：
+这道题主要考察以下知识点：
+
+* 在被defer的函数里对返回值做修改在什么情况下会生效？
+
+   
+
+### 详解
+
+我们来看下官方文档里的规定：
+
+> Each time a "defer" statement executes, the function value and parameters to
+> the call are evaluated as usual and saved anew but the actual function is not 
+> invoked. Instead, deferred functions are invoked immediately before the 
+> surrounding function returns, in the reverse order they were deferred. That
+> is, if the surrounding function returns through an explicit return statement, 
+> deferred functions are executed after any result parameters are set by that 
+> return statement but before the function returns to its caller. If a deferred
+> function value evaluates to nil, execution panics when the function is 
+> invoked, not when the "defer" statement is executed.
+重点是这句：
+
+> That is, if the surrounding function returns through an explicit return statement, 
+> deferred functions are executed after any result parameters are set by that 
+> return statement but before the function returns to its caller.
+Go的规定是：如果在函数A里执行了 defer B(xx)，函数A显式地通过return语句来返回时，会先把返回值赋值给A的返回值参数，然后执行被defer的函数B，最后才真正地返回给函数A的调用者。
+
+对于`test1`函数，执行`return i`时，先把`i`的值赋值给`test1`的返回值，defer语句里对`i`的赋值并不会改变函数`test1`的返回值，`test1`函数返回0。
+
+对于`test2`函数，执行`return i`时，先把`i`的值赋值给`test2`的命名返回值result，defer语句里对`result`的修改会改变函数`test2`的返回值，`test2`函数返回60。
+
+对于`test3`函数，虽然`return`后面没有具体的值，但是编译器不会报错，执行`return`时，先执行被defer的函数，在被defer的函数里对result做了修改，result的结果变为80，最后`test3`函数return返回的时候返回80。
+
+所以答案是B。
+
+**所以想要对return返回的值做修改，必须使用命名返回值(Named Return Value)**。
 
 ## 递归
 Redhat的首席工程师、Prometheus开源项目Maintainer [Bartłomiej Płotka](https://twitter.com/bwplotka) 在Twitter上出了一道Go编程题，结果超过80%的人都回答错了。
@@ -401,3 +582,102 @@ func main() {
 * D: 递归栈溢出
 
 #### 猜的递归溢出，不知道原因
+## 解析
+
+在函数`bbb`最后执行return语句，会对返回值变量`done`进行赋值，
+
+```go
+done := func() { print("bbb: surprise!"); done() }
+```
+
+**注意**：闭包`func() { print("bbb: surprise!"); done() }`里的`done`并不会被替换成`done, err := aaa()`里的`done`的值。
+
+因此函数`bbb`执行完之后，返回值之一的`done`实际上成为了一个递归函数，先是打印`"bbb: surprise!"`，然后再调用自己，这样就会陷入无限递归，直到栈溢出。因此本题的答案是`D`。
+
+那为什么函数`bbb`最后return的闭包`func() { print("bbb: surprise!"); done() }`里的`done`并不会被替换成`done, err := aaa()`里的`done`的值呢？如果替换了，那本题的答案就是`B`了。
+
+
+
+这个时候就要搬出一句老话了：
+
+> This is a feature, not a bug
+
+
+我们可以看下面这个更为简单的例子，来帮助我们理解：
+
+```go
+// named_return1.go
+package main
+import "fmt"
+func test() (done func()) {
+	return func() { fmt.Println("test"); done() }
+}
+func main() {
+	done := test()
+	// 下面的函数调用会进入死循环，不断打印test
+	done()
+}
+```
+
+正如上面代码里的注释说明，这段程序同样会进入无限递归直到栈溢出。
+
+如果函数`test`最后return的闭包`func() { fmt.Println("test"); done() }`里的`done`是被提前解析了的话，因为`done`是一个函数类型的变量，`done`的零值是`nil`，那闭包里的`done`的值就会是`nil`，执行`nil`函数是会引发panic的。
+
+**但实际上Go设计是允许上面的代码正常执行的(通过这种方式可以返回一个递归函数)**，因此函数`test`最后return的闭包里的`done`的值并不会提前解析，`test`函数执行完之后，实际上产生了下面的效果，返回的是一个递归函数，和本文开始的题目一样。
+
+```go
+done := func() { fmt.Println("test"); done() }
+```
+
+因此也会进入无限递归，直到栈溢出。
+
+
+
+##  总结
+
+这个题目其实很tricky，在实际编程中，要避免对命名返回值采用这种写法，非常容易出错。
+
+想了解国外Go开发者对这个题目的讨论详情可以参考[Go Named Return Parameters Discussion](https://twitter.com/bwplotka/status/1494362886738780165)。
+
+另外题目作者也给了如下所示的解释，原文地址可以参考[详细解释](https://go.dev/play/p/ELPEi2AK0DP)：
+
+```go
+package main
+func aaa() (done func(), err error) {
+	return func() { print("aaa: done") }, nil
+}
+func bbb() (done func(), _ error) {
+	// NOTE(bwplotka): Here is the problem. We already defined special "return argument" variable called "done".
+	// By using `:=` and not `=` we define a totally new variable with the same name in
+	// new, local function scope.
+	done, err := aaa()
+	// NOTE(bwplotka): In this closure (anonymous function), we might think we use `done` from the local scope,
+	// but we don't! This is because Go "return" as a side effect ASSIGNS returned values to
+	// our special "return arguments". If they are named, this means that after return we can refer
+	// to those values with those names during any execution after the main body of function finishes
+	// (e.g in defer or closures we created).
+	//
+	// What is happening here is that no matter what we do in the local "done" variable, the special "return named"
+	// variable `done` will get assigned with whatever was returned. Which in bbb case is this closure with
+	// "bbb:surprise" print. This means that anyone who runs this closure AFTER `return` did the assignment
+	// will start infinite recursive execution.
+	//
+	// Note that it's a feature, not a bug. We use this often to capture
+	// errors (e.g https://github.com/efficientgo/tools/blob/main/core/pkg/errcapture/doc.go)
+	//
+	// Go compiler actually detects that `done` variable defined above is NOT USED. But we also have `err`
+	// variable which is actually used. This makes compiler to satisfy that unused variable check,
+	// which is wrong in this context..
+	return func() { print("bbb: surprise!"); done() }, err
+}
+func main() {
+	done, _ := bbb()
+	done()
+}
+```
+
+不过这个解释是有瑕疵的，主要是这句描述：
+
+> By using `:=` and not `=` we define a totally new variable with the same name in
+>  new, local function scope.
+对于`done, err := aaa()`，返回变量`done`并不是一个新的变量，而是和函数`bbb`的返回变量`done`是同一个变量。
